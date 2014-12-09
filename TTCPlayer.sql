@@ -1,36 +1,21 @@
-#!/usr/bin/bash
-SANDBOX=sandbox_$RANDOM
-echo Using sandbox $SANDBOX
-#
-# Stop services
-/etc/init.d/apache2 stop
-/etc/init.d/mysql stop
-#
-apt-get update
-#
-apt-get -q -y remove apache2
-apt-get -q -y install apache2
-#
-apt-get -q -y remove mysql-server mysql-client
-echo mysql-server mysql-server/root_password password password | debconf-set-selections
-echo mysql-server mysql-server/root_password_again password password | debconf-set-selections
-apt-get -q -y install mysql-server mysql-client
-#
-cd /tmp
-mkdir $SANDBOX
-cd $SANDBOX/
-git clone https://github.com/FSlyne/NCIRL.git
-cd NCIRL/
-#
-cp Apache/www/* /var/www/
-cp Apache/cgi-bin/* /usr/lib/cgi-bin/
-chmod a+x /usr/lib/cgi-bin/*
-#
-# Start services
-/etc/init.d/apache2 start
-/etc/init.d/mysql start
-#
-cat <<FINISH | mysql -uroot -ppassword
+-- phpMyAdmin SQL Dump
+-- version 4.2.8.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 09, 2014 at 10:05 AM
+-- Server version: 5.5.39-MariaDB
+-- PHP Version: 5.5.16
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
 -- Database: `TTCPlayer`
 --
@@ -55,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `Player` (
 ) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
---Insert data into `Player` table
+-- Dumping data for table `Player`
 --
 
 INSERT INTO `Player` (`ID`, `firstname`, `lastname`, `prefix`, `mobile`, `email`, `teamID`) VALUES
@@ -88,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `Team` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Insert data into `Team` table
+-- Dumping data for table `Team`
 --
 
 INSERT INTO `Team` (`ID`, `TeamName`, `TeamColour`, `TeamCaptain`) VALUES
@@ -97,7 +82,7 @@ INSERT INTO `Team` (`ID`, `TeamName`, `TeamColour`, `TeamCaptain`) VALUES
 (3, 'Rovers', 'Green', 0);
 
 --
--- Indexes for tables
+-- Indexes for dumped tables
 --
 
 --
@@ -129,9 +114,3 @@ MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-select * from Player
-FINISH
-#
-cd /tmp
-rm -rf $SANDBOX
-
