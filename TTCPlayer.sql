@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `TTCPlayer`
 --
-CREATE DATABASE IF NOT EXISTS `TTCPlayer` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `TTCPlayer`;
 USE `TTCPlayer`;
 
 -- --------------------------------------------------------
