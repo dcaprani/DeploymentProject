@@ -1,10 +1,11 @@
 #!/usr/bin/bash
 SANDBOX=sandbox_$RANDOM
 echo Using sandbox $SANDBOX
-#
+# SHOULD WE FIRST CHECK IF APACHE AND MYSQL ARE RUNNING??
+# PERHAPS WE SHOULD CHECK WHAT VERSION OF APACHE IS RUNNING;
 # Stop services
-/etc/init.d/apache2 stop
-/etc/init.d/mysql stop
+service apache2 stop
+service mysql stop
 #
 apt-get update
 #
@@ -52,7 +53,9 @@ SET time_zone = "+00:00";
 #
 # Database: TTCPlayer
 #
+DROP DATABASE IF EXISTS TTCPlayer;
 CREATE DATABASE IF NOT EXISTS TTCPlayer;
+GRANT ALL PRIVILEGES ON TTCPlayerTTCPlayer.* TO dbtestuser@localhost IDENTIFIED BY 'dbpassword';
 USE TTCPlayer;
 
 # ############################
@@ -89,7 +92,6 @@ INSERT INTO Player (ID, firstname, lastname, prefix, mobile, email, teamID) VALU
 (24, 'Derek', 'Caprani', '087', '9679097', 'dcaprani@me.com', 1),
 (25, 'Hairy', 'Mairy', '086', '0980980', 'hm@mh.ie', 1),
 (26, 'John', 'Joe', '083', '0989879890', 'johnJoe@jj.jj', 1),
-(28, '', '', '', '', '', NULL);
 
 # ############################
 
@@ -138,7 +140,7 @@ ALTER TABLE Team
 # AUTO_INCREMENT for table Player
 #
 ALTER TABLE Player
-MODIFY ID int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY ID int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 #
 # AUTO_INCREMENT for table Team
 #
